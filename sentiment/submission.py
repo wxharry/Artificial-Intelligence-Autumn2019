@@ -46,7 +46,17 @@ def learnPredictor(trainExamples, testExamples, featureExtractor, numIters, eta)
     '''
     weights = {}  # feature => weight
     # BEGIN_YOUR_CODE (our solution is 12 lines of code, but don't worry if you deviate from this)
-    raise Exception("Not implemented yet")
+    def sF(x, y, w):
+        return (dotProduct(x, w) - y ) ** 2
+    def sdF(x, y, w):
+        return dict(map(lambda i: (i[0], i[1] * 2 * (dotProduct(x, w) - y )), x.items() ))
+    for _ in range(numIters):
+        for x, y in trainExamples:
+            vector_x = featureExtractor(x)
+            value = sF(vector_x, y, weights)
+            grad = sdF(vector_x, y, weights)
+            increment(weights, -eta, grad)
+    evaluatePredictor(testExamples, lambda x: dotProduct(extractWordFeatures(x), weights))
     # END_YOUR_CODE
     return weights
 
