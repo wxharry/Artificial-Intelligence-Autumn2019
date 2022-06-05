@@ -75,7 +75,8 @@ def generateDataset(numExamples, weights):
     # y should be 1 or -1 as classified by the weight vector.
     def generateExample():
         # BEGIN_YOUR_CODE (our solution is 2 lines of code, but don't worry if you deviate from this)
-        raise Exception("Not implemented yet")
+        phi = {k: random.random() for k, _ in weights.items() if random.random() < 0.5}
+        y = -1 if dotProduct(weights, phi) < 0 else 1
         # END_YOUR_CODE
         return (phi, y)
     return [generateExample() for _ in range(numExamples)]
@@ -92,7 +93,13 @@ def extractCharacterFeatures(n):
     '''
     def extract(x):
         # BEGIN_YOUR_CODE (our solution is 6 lines of code, but don't worry if you deviate from this)
-        raise Exception("Not implemented yet")
+        vec = {}
+        for gram in [x.replace(' ', '')[i:i+3] for i in range(0, len(x.replace(' ', ''))) if i+3 <= len(x.replace(' ', ''))]:
+            if gram in vec.keys():
+                vec[gram] += 1
+            else :
+                vec[gram] = 1
+        return vec
         # END_YOUR_CODE
     return extract
 
